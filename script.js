@@ -1,10 +1,10 @@
 
 // variables for quiz
 var startButton = document.querySelector("#startButton");
+var timerEl = document.getElementById("timer");
+
 // var quiz = document.querySelector("#quiz");
-// var qImg = document.querySelector("#qimg");
 // var question = document.querySelector("#question");
-// var counter = document.querySelector("#counter");
 // var timeGuage = document.querySelector("#timeGuage");
 
 // var choiceA = document.querySelector("#A");
@@ -17,58 +17,31 @@ var startButton = document.querySelector("#startButton");
 // var lastQuestionIndex = questions.length[-1];
 // var runningQuestionIndex = 0;
 
-//set timer 
-var deadline = '00:00:30'; 
 
-startButton.addEventListener("click", function getTimeRemaining(endtime){
-    var t = Date.parse(endtime) - Date.parse(new Date());
-    var minutes = Math.floor( (t/1000/60) % 60);
-    var seconds = Math.floor( (t/1000) % 60);
-    console.log(endtime);
-    return{
-        'total': t,
-        'minutes': minutes,
-        'seconds': seconds,
-    };
-
-function initializeClock(counter, endtime){
-    var clock = document.getElementById(id);
-    var timeinterval = setInterval(function(){
-        var t = getTimeRemaining(endtime);
-        clock.innterHTML = 'minutes: ' + t.minutes; +
-                            'seconds: ' + t.seconds;
-        if (t.total <= 0){
-            clearInterval(timeinterval);
-        }
-    }, 1000);
-    initializeClock('clockdiv', deadline);
-}
-});
-
-console.log(deadline);
 
 //when user pushes start quiz button, timer starts and page moves to first question
-// startButton.addEventListener("click", function(event){
-//     setTimeout(function(){
-//         console.log(startButton);
-//         function renderQuestion(){
-//             var q = questions[runningQuestionIndex];
-//             question.innerHTML = "<p>" +q.question+ "</p>";
-//             choiceA.innerHTML = q.choiceA;
-//             choiceB.innerHTML = q.choiceB;
-//             choiceC.innerHTML = q.choiceC;
-//             choiceD.innerHTML = q.choiceD;   
-//         }
-
-//         renderQuestionIndex = 0;
-//         renderQuestion();
+//set timer 
+startButton.addEventListener("click", (function(){
+    console.log('timer started');
     
-//         runningQuestionIndex++
-//         renderQuestion();
-            
-//         })
-//     });
+    var secondsLeft = 30;
+    
+    setTimeout(function() {
+      console.log('Set timeout complete');
+    }, 1000)
+    
+    var interval = setInterval(function() {
+      secondsLeft--;
+      console.log('tick');
+      if (secondsLeft === 0) {
+        clearInterval(interval)
+        console.log('Times Up!')
+      }
+    }, 1000)
 
+    //display timer on page
+    
+    }));
     
     
     //when the user pushes the start button, pop up first question with four possible answers and start timer countdown

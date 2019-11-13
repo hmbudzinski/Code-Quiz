@@ -13,14 +13,10 @@
         <h1>Coding Quiz Challenge</h1>
         <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>    
         <button onclick="" type="button" class="btn btn-danger btn-lg" id="startButton" role="button">Start Quiz</button>
+        <div id = "timer"></div>            
         <div id = "quiz" style = "display: none;">
-            <div id = "qimg"><img src = "#"></div>
             <div id = "question"><p>Question</p></div>   
-            <div id = "timer">
-                <div id = "counter"></div>
-                <div id = "bTimeGuage"></div>
-                <div id = "timeGuage"></div>
-            </div>     
+            <div id = "main"></div>
             <div id = "choices">
                 <div class = "ansChoice" id = "A" onclick = "checkAnswer('A')">A</div>
                 <div class = "ansChoice" id = "B" onclick = "checkAnswer('B')">B</div>
