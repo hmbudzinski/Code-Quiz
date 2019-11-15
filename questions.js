@@ -3,11 +3,8 @@
 var questions = [
     {
       question: "Commonly used data types DO NOT include:",
-      choiceA: "strings",
-      choiceB: "booleans",
-      choiceC: "alerts",
-      choiceD: "numbers",
-      answer: "C"
+      choices: ["strings","booleans","alerts","numbers",],
+      answer: "alerts"
     },
     {
       question: "The condition in an if / else statement is enclosed within ____.",
