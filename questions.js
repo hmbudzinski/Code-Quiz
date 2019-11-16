@@ -8,11 +8,9 @@ var questions = [
     },
     {
       question: "The condition in an if / else statement is enclosed within ____.",
-      choiceA: "quotes",
-      choiceB: "curly brackets",
-      choiceC: "parentheses",
-      choiceD: "square brackets",
-      answer: "C"
-    }]
+      choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+      answer: "parentheses"
+    },
+  ]
 
 

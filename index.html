@@ -9,32 +9,20 @@
     <title>Code Quiz</title>
 </head>
 <body>
+    <span id="timer">Time 30</span>
     <div class="container">
-        <div id = "timer"></div>            
         <div class= "page1">
             <h1>Coding Quiz Challenge</h1>
             <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>    
-            <button onclick="" type="button" class="btn btn-danger btn-lg" id="startButton" role="button">Start Quiz</button>
+            <button onclick= "" type="button" class="btn btn-danger btn-lg" id="startButton" role="button">Start Quiz</button>
         </div>
         <div class="carouselbox carousel slide question-pages" aria-role="img" aria-label="carousel">
             <div id = "quiz">
-                <div class="buttons">
-                    <button class="answer1">
-                    A
-                    </button>
-                    <button class="answer2">
-                    B 
-                    </button>
-                    <button class="answer3">
-                    C
-                    </button>
-                    <button class="answer4">
-                    D
-                    </button>
-                  </div>
+                <div class ="mainQuestion"></div>
+                <div class="answers"></div>
             </div>
         </div>    
-        <div id ="scoreContainer" style = "display : none;"></div>
+        <div id ="scoreContainer" style = ""></div>
 </div>
 
     <script src="./questions.js"></script>

@@ -1,64 +1,95 @@
 
 // variables for quiz
 var startButton = document.querySelector("#startButton");
-var timerEl = document.getElementById("timer");
-var page1 = document.getElementsByClassName("page1");
+var timerEl = document.querySelector("#timer");
+var page1 = document.querySelector(".page1");
 var carousel = document.querySelector(".carousel");
-var quiz = document.getElementById("quiz");
+var quiz = document.querySelector("#quiz");
 var answer1 = document.querySelector(".answer1");
 var answer2 = document.querySelector(".answer2");
 var answer3 = document.querySelector(".answer3");
 var answer4 = document.querySelector(".answer4");
+var mainQuestion = document.querySelector(".mainQuestion");
+var answers = document.querySelector(".answers");
 
 // var scoreContainer = document.querySelector("#scoreContainer");
 //create functiont that loops through questions
 
-var allQuestions = JSON.parse(localStorage.getItem("questions")) || questions;
-console.log("allQuestions value", allQuestions);
+// var allQuestions = JSON.parse(localStorage.getItem("questions")) || questions;
+// console.log("allQuestions value", allQuestions);
+
+//function to access questions 
+var currentIndex = 0;
 
 function changeQuestions(){
   for(var i = 0; i < questions.length; i++){
     questions[i].question;
-    console.log(questions[i].question);
+    currentIndex++;
   }
 }
 
-var currentIndex = 0;
 //when user pushes start quiz button, timer starts and page moves to first question
 //set timer 
+//can we use that css function that hides a div?
 startButton.addEventListener("click", (function(event){
-  //15 seconds per question
-  if(startButton === true){
-    startButton.settAttribute('style', 'display: none');
-  }
+  //if start button is pushed, clear current display and move to next display
+  if(startButton){
+    page1.setAttribute("style", "display:none");
+  };
   
-  currentIndex++;
-  var secondsLeft = 5;
+  // carousel.textContent = allQuestions[currentIndex];
+  // console.log(allQuestions[currentIndex]);
 
-  setTimeout(function() {
-  }, 1000)
-  
-  var interval = setInterval(function() {
-    secondsLeft--;
-    console.log('tick');
-    if (secondsLeft === 0) {
-      clearInterval(interval)
-      console.log('Times Up!')
+  if(startButton){
+    for (var i = 0; i < questions.length; i++){
+    //pull in question 1 
+      console.log(questions[i].question);
+
+      var h3 = document.createElement("h3");
+      $("h3").text(questions[i].question);
+      mainQuestion.appendChild(h3);
+    
+    for(var j = 0; j < questions[i].choices.length; j++){
+      console.log(questions[i].choices[j].choices);
+      var button = document.createElement("button");
+      $("button").text(questions[i].choices[j].choices);
+      answers.appendChild(button);
     }
-  }, 1000)
 
+    console.log(questions[i].answer);
+  }; 
+    //create a table row CHANGE THESE TO H3 and BUTTON divs 
+        // var tr = document.createElement("tr");
+        // //create a; table data cell(td) and inside of there, build out an <a> tag with the link and the text of the bookmark inside of it 
+        // var td = document.createElement("td");
+        // //<a href = 'link here' target='_blank'>name<a>
+        // td.innerHTML = `<div>${questions[i]}</div>`;
+        // //figure out how to get it on the page, append the td's into the TR (table row)
+        // tr.appendChild(td);
+        // //append the tr with all the data in it to the html
+        // quiz.appendChild(td);
+        
+        
+        //15 seconds per question
+        var secondsLeft = 10;
+                
+        var interval = setInterval(function() {
+          timerEl.textContent = "Time: " + secondsLeft--;
+          console.log('tick');
 
-  carousel.textContent = allQuestions[currentIndex];
-  console.log(allQuestions[currentIndex]);
+          if (secondsLeft === -1) {
+            clearInterval(interval)
+            console.log('Times Up!')
+          }
+        }, 1000);
 
-  quiz.appendChild(carousel);
-  console.log(carousel);
+        changeQuestions();
+    };
 
-  localStorage.setItem("Questions", JSON.stringify(allQuestions));
-
+  // var answers = localStorage.getItem(document.questions.choices);
+  // document.getElementById("quiz").value = answer;
 }));
 
-changeQuestions();
     //change text.content of id "question" to access the question elements in the questions variable.
     //reference study session from Sarah for the variable/array grabbing thing
     //append questions to the div, using [i} in the for loop
