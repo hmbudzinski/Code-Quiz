@@ -1,110 +1,172 @@
 
 // variables for quiz
-var startButton = document.querySelector("#startButton");
+var seconds = questions.length * 15;
 var timerEl = document.querySelector("#timer");
+var startButton = document.querySelector("#startButton");
+var quizBody = document.querySelector("#quiz");
+var choicesDiv1 = document.querySelector("#choices");
+var endScreen = document.querySelector("#end-screen");
 var page1 = document.querySelector(".page1");
-var quiz = document.querySelector("#quiz");
-
-// var scoreContainer = document.querySelector("#scoreContainer");
-//create functiont that loops through questions
-
 var currentIndex = 0;
-//when user pushes start quiz button, timer starts and page moves to first question
-startButton.addEventListener("click", function(event){
-  //if start button is pushed, clear current display and move to next display
-  if(startButton){
-    //clears first page
-    page1.setAttribute("style", "display:none");
-      //creates new element to store questions
-      var h3 = document.createElement("h3");
-      //adds question to the new element
-      h3.textContent = questions[currentIndex].question;
-      console.log(questions[currentIndex].question);
-      //call element main-question
-      var mainQuestion = document.getElementById("main-question");
-      //append the h3 element to the main-question element
-      mainQuestion.appendChild(h3);
-      
-      //sets how many seconds the clock will run
-      var secondsLeft = 20;
-      
-      var interval = setInterval(function() {
-        timerEl.textContent = "Time: " + secondsLeft--;
-        console.log('tick');
-        //if seconds left gets down to 15, move to the next question
-        if(secondsLeft === 15){
-          currentIndex++;
-        }
-        if (secondsLeft === -1) {
-          clearInterval(interval)
-          console.log('Times Up!')
-        }
-      }, 1000);
+// var answerBtns;
+// var timerId;
 
-      //calls answers to link to page
-      function nextQuestion(){
-        console.log(questions[currentIndex].choices);
-        for(var j = 0; j < questions[currentIndex].choices.length; j++){
-          //creates button elements to attach to question
-          var button = document.createElement("button");
-          button.textContent = questions[currentIndex].choices[j];
-          //grabs div of answers
-          var answers = document.getElementById("answers");
-          //append the button div to the answers div
-          answers.appendChild(button);
-        }
+// variables to reference DOM elements
+var submitBtn = document.getElementById("submit");
 
-        //add an event listener to each button
-      button.addEventListener("click", function(event){
-          //create a div to link the text content of the event target
-          var usersChoice = event.target.textContent;
-          console.log(usersChoice);
-          //if the new variable of users choice equals the variable in the
-          //questions page, change to the next question
-          if (usersChoice === questions[currentIndex].answer){
-                console.log("correct!")
-                currentIndex++;
-          } else{
-                  console.log("incorrect");
-                  currentIndex++;
-              // } // end if 
+//On click: 
+//timer starts and page moves to first question 
+//start 10 second timer
+
+function getQuestion(){
+
+  page1.setAttribute("style", "display:none");
+
+  let i = currentIndex;
+
+  //Display first question
+  var h3 = document.createElement("h3");
+  h3.textContent = questions[i].title;
+
+  //appends the h3 div to the main div that holds the questions
+  quizBody.append(h3);
+
+  for (j = 0; j < questions[i].choices.length; j++){
+
+    //call first set of choices 
+    var buttonDiv = document.createElement("div");
+    var button = document.createElement("button");
+    var resultEl = document.createElement("h4");
+    var answerOutput = document.querySelector("#answer-output");
+    var currentQuestion = 0;
+
+    buttonDiv.append(button);
+    button.setAttribute("id", "responses" + j);
+    button.setAttribute("res", questions[i].choices[j]);
+    button.textContent = questions[i].choices[j];
+    
+    currentQuestion++;
+
+    quizBody.append(buttonDiv);
+
+    document.querySelector("#responses" + j).addEventListener("click", function (event) {
+      var selectedAns = event.target.attributes[1].nodeValue;
+
+      if (selectedAns === questions[i].answer) {
+
+          resultEl.textContent = ("Correct!");
+          answerOutput.innerHTML = "";
+          answerOutput.append(resultEl);
+
+      }
+      else {
+
+          resultEl.textContent = ("Incorrect!");
+          answerOutput.innerHTML = "";
+          answerOutput.append(resultEl);
+          seconds = seconds - 15
+          timer.textContent = "Time: " + seconds;
+          verifyTime(); 
+    }
+
+  index++;
+
+  // verify if index is < questions.length
+  if (index < questions.length) {
+      getQuestion();
+  }
+  else {
+      endQuiz();
+  }
+})}
+}
+
+function verifyTime() {
+  if (seconds < 0) {
+      timer.textContent = "Time's Up!";
+      clearInterval(timeInterval);
+      seconds = 0
+      endQuiz()
+  }
+}
+
+function endQuiz() {
+  // stop timer
+  clearInterval(timerEl);
+  // show end screen
+  var endScreenEl = document.getElementById("end-screen");
+  endScreenEl.removeAttribute("class");
+  // show final score
+  var finalScoreEl = document.getElementById("final-score");
+  finalScoreEl.textContent = time;
+  // hide questions section
+  scoreContainer.setAttribute("class", "hide");
+
+
+  endScreen.innerHTML = "";
+  var total = document.querySelector("#total-score");
+  var addUser = document.querySelector("#add-user");
+  total.textContet = seconds;
+
+  var resultsArea = document.querySelector("#resultsarea");
+  resultsArea.style.display = "block";
+
+  addUser.addEventListener("click", function () {
+      event.preventDefault()
+      
+      // the input
+      var initials = document.querySelector("#initials").value;
+      document.querySelector("#initials").value = "";
+
+      // then add to the localstorage
+      // key totalscores [{user:"", score:},]
+
+      if (initials !== "") {
+          var newUser = {
+              user: initials,
+              score: seconds
           }
+          var totalScores = JSON.parse(localStorage.getItem("totalScores"))
+          console.log(totalScores);
+          if (!totalScores) {
+              totalScores = []
+          }
+          totalScores.push(newUser)
+          localStorage.setItem("totalScores", JSON.stringify(totalScores))
+      }
+  })
+}
 
-          }); // end button event listener
-        }
-    })};
 
-    
-// answers.addEventListener("click", function(){
-// console.log("answer clicked");
-       
-//       for (var k = 0; k < questions.length; k++){;
-//           console.log(questions[i].answer[k].answer);
-          
-//           if(answer === true){
-//             alert("Correct!");
-//           }
-//           else {
-//             alert("Incorrect");
-//           }          
-//         }  
-//     }   
+// function saveHighscore() {
+//   // get value of input box
+//   var initials = initialsEl.value.trim();
+//   // make sure value wasn't empty
+//   if (initials !== "") {
+//     // get saved scores from localstorage, or if not any, set to empty array
+//     var highscores =
+//       JSON.parse(window.localStorage.getItem("highscores")) || [];
+//     // format new score object for current user
+//     var newScore = {
+//       score: time,
+//       initials: initials
+//     };
+//     // save to localstorage
+//     highscores.push(newScore);
+//     window.localStorage.setItem("highscores", JSON.stringify(highscores));
+//     // redirect to next page
+//     window.location.href = "highscores.html";
+//   }
+// }
 
-    //15 seconds per question
 
-    //reference study session from Sarah for the variable/array grabbing thing  
+startButton.addEventListener("click", function(){
+  event.preventDefault();
   
-    //if an answer is incorrect, notify and remove 10 seconds from timer
-
-    //if answer is correct, add 10 seconds to timer(or overall score)
-    
-    //once question answered, trigger next question
-
-    //at end of cycle, add up remaining time and add it to overall points earned for final score
-
-    //NOTES/HINTS
-    //JSON.stringify()
-    //var studentStringified = JSON.stringify(students);
-    //localstorage,setItem("students", studentsStringified);
-    //var = studentsFromLovalStorage = localStorage.getItem("students");
-    //JSON.parse()
+  var timeInterval = setInterval(function(){
+    timerEl.textContent = "Time: " + seconds--;
+    verifyTime();
+  }, 1000);
+  
+  getQuestion();
+});
