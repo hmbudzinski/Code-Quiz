@@ -18,7 +18,7 @@ var questions = [
     },
     {
       title: "4. What does an 'event listener' do?",
-      choices: ["listens to what you're saying through your computer's mic", "starts a function after a site event e.g. 'click'", "prompts the user to input", "alerts the user that there was an event on-site"],
+      choices: ["listens to what you're saying through your computer's mic", "starts a function after an event e.g. 'click'", "prompts the user to input", "alerts the user that there was an event on-site"],
       answer: "starts a function after a site event e.g. 'click'"
     },
     {
